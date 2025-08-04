@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,30 +13,36 @@
       background: #0b0f1c;
       color: #f4f4f4;
     }
+
     header {
       text-align: center;
       padding: 50px 20px 20px;
     }
+
     header h1 {
       font-size: 3rem;
       color: #00e6ff;
     }
+
     header p {
       color: #f0c040;
       font-size: 1.2rem;
       margin-top: 10px;
     }
+
     section {
       max-width: 1000px;
       margin: auto;
       padding: 40px 20px;
     }
+
     .services {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
       margin-top: 30px;
     }
+
     .card {
       background: #1a2238;
       border-radius: 10px;
@@ -43,26 +50,115 @@
       text-align: center;
       transition: 0.3s;
     }
+
     .card:hover {
       transform: translateY(-5px);
       background: #222c4a;
     }
+
     .card h3 {
       color: #00e6ff;
     }
+
     footer {
       text-align: center;
       padding: 30px 20px;
       background: #11172b;
       margin-top: 50px;
     }
+
     footer a {
       color: #00e6ff;
       text-decoration: none;
       font-weight: 600;
     }
+
+    header img,
+    header h1,
+    header p {
+      opacity: 0;
+      animation: fadeUp 1s ease forwards;
+    }
+
+    header img {
+      animation-delay: 0.1s;
+    }
+
+    header h1 {
+      animation-delay: 0.3s;
+    }
+
+    header p {
+      animation-delay: 0.5s;
+    }
+
+    /* Animation Keyframes */
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .card {
+      background: #1a2238;
+      border-radius: 10px;
+      padding: 20px;
+      text-align: center;
+      transition: transform 0.3s, background 0.3s;
+      opacity: 0;
+      /* start invisible */
+      animation: fadeUp 1s ease forwards;
+    }
+
+    .card:nth-child(1) {
+      animation-delay: 0.2s;
+    }
+
+    .card:nth-child(2) {
+      animation-delay: 0.4s;
+    }
+
+    .card:nth-child(3) {
+      animation-delay: 0.6s;
+    }
+
+    .card:nth-child(4) {
+      animation-delay: 0.8s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px) scale(1.05);
+      background: #222c4a;
+    }
+
+    /* Keyframe for glowing animation */
+    @keyframes logoGlow {
+      0% {
+        filter: drop-shadow(0 0 5px #00e6ff);
+      }
+
+      50% {
+        filter: drop-shadow(0 0 20px #00e6ff);
+      }
+
+      100% {
+        filter: drop-shadow(0 0 5px #00e6ff);
+      }
+    }
+
+    /* Apply to the logo image */
+    header img {
+      animation: fadeUp 1s ease forwards, logoGlow 3s infinite ease-in-out;
+    }
   </style>
 </head>
+
 <body>
   <header>
     <img src="assets/logo.png" alt="PyLumeAI Logo" style="width: 120px; margin-bottom: 10px;">
@@ -73,10 +169,22 @@
   <section>
     <h2 style="text-align:center; color:#f0c040;">Services</h2>
     <div class="services">
-      <div class="card"><h3>Data Engineering</h3><p>ETL Pipelines in AWS, PySpark, Databricks</p></div>
-      <div class="card"><h3>Python Development</h3><p>Automation, APIs, Streamlit Dashboards</p></div>
-      <div class="card"><h3>Generative AI & Chatbots</h3><p>RAG, LangChain, AI-powered apps</p></div>
-      <div class="card"><h3>Data Visualization</h3><p>Power BI Dashboards, Streamlit Visuals</p></div>
+      <div class="card">
+        <h3>Data Engineering</h3>
+        <p>ETL Pipelines in AWS, PySpark, Databricks</p>
+      </div>
+      <div class="card">
+        <h3>Python Development</h3>
+        <p>Automation, APIs, Streamlit Dashboards</p>
+      </div>
+      <div class="card">
+        <h3>Generative AI & Chatbots</h3>
+        <p>RAG, LangChain, AI-powered apps</p>
+      </div>
+      <div class="card">
+        <h3>Data Visualization</h3>
+        <p>Power BI Dashboards, Streamlit Visuals</p>
+      </div>
     </div>
   </section>
 
@@ -85,4 +193,5 @@
     <p>© 2025 PyLumeAI</p>
   </footer>
 </body>
+
 </html>
