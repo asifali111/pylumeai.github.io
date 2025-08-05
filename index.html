@@ -137,6 +137,13 @@
       background: #222c4a;
     }
 
+    .card.show {
+      opacity: 1;
+      transform: translateY(0);
+      transition: all 0.6s ease-out;
+    }
+
+
     /* Keyframe for glowing animation */
     @keyframes logoGlow {
       0% {
@@ -192,6 +199,23 @@
     <p>Contact me: <a href="mailto:contact.pylumeai@gmail.com">contact.pylumeai@gmail.com</a></p>
     <p>© 2025 PyLumeAI</p>
   </footer>
+  <script>
+    // Select all cards
+    const cards = document.querySelectorAll('.card');
+
+    // Intersection Observer
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('show');
+        }
+      });
+    }, { threshold: 0.2 }); // Trigger when 20% visible
+
+    // Observe each card
+    cards.forEach(card => observer.observe(card));
+  </script>
+
 </body>
 
 </html>
