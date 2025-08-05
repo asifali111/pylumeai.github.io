@@ -269,6 +269,23 @@
   background: #f0c040;
   box-shadow: 0 0 20px rgba(240, 192, 64, 0.8);
 }
+/* Floating Contact Button Animation */
+@keyframes slideInBottomRight {
+  0% {
+    opacity: 0;
+    transform: translate(50px, 50px) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1);
+  }
+}
+
+.contact-btn {
+  animation: slideInBottomRight 1s ease-out forwards;
+  animation-delay: 1.5s; /* start after page loads */
+}
+
 
   </style>
 </head>
