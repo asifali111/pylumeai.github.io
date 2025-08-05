@@ -249,6 +249,27 @@
         transform: translateY(0) translateX(0);
       }
     }
+    /* Floating Contact Button */
+.contact-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: #00e6ff;
+  color: #0b0f1c;
+  padding: 12px 18px;
+  border-radius: 30px;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 0 15px rgba(0, 230, 255, 0.6);
+  transition: 0.3s;
+  z-index: 10;
+}
+
+.contact-btn:hover {
+  background: #f0c040;
+  box-shadow: 0 0 20px rgba(240, 192, 64, 0.8);
+}
+
   </style>
 </head>
 
@@ -306,6 +327,7 @@
     // Observe each card
     cards.forEach(card => observer.observe(card));
   </script>
+<a href="mailto:contact.pylumeai@gmail.com" class="contact-btn">📧 Hire Me</a>
 
 </body>
 
