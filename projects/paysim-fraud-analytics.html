@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PaySim Fraud Analytics – PyLumeAI</title>
+  <meta name="description" content="End-to-end PySpark + Databricks ETL and dashboards on the PaySim dataset to analyze and visualize fraud." />
+  <link rel="icon" type="image/png" href="../assets/logo.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg:#0b0f1c; --panel:#1a2238; --panel-hover:#222c4a;
+      --ink:#f4f4f4; --brand:#00e6ff; --accent:#f0c040; --muted:#a6b3d1;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin:0; font-family:'Poppins',sans-serif; background:var(--bg); color:var(--ink);
+    }
+    header, footer { text-align:center; padding:32px 16px; }
+    header img { width: 100px; filter: drop-shadow(0 0 10px var(--brand)); }
+    header h1 { margin: 10px 0 4px; color: var(--brand); font-size: 2rem; }
+    header p { margin: 0; color: var(--accent); }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 24px 16px; }
+    .hero {
+      margin-top:8px; background: linear-gradient(135deg, rgba(0,230,255,.07), rgba(240,192,64,.07));
+      border:1px solid rgba(255,255,255,.06); border-radius:14px; padding:24px;
+      box-shadow: 0 10px 40px rgba(0,0,0,.25);
+      animation: fadeUp .8s ease forwards; opacity:0;
+    }
+    .hero h2 { margin: 0 0 8px; color: var(--ink); font-size: 1.6rem; }
+    .hero p  { margin:0; color: var(--muted); }
+
+    section { padding: 28px 0; }
+    h3 { color: var(--accent); margin:0 0 12px; }
+    .panel {
+      background: var(--panel); border-radius:12px; padding:20px; margin:16px 0;
+      transition: .3s; border:1px solid rgba(255,255,255,.06);
+      animation: fadeUp .8s ease forwards; opacity:0;
+    }
+    .panel:hover { transform: translateY(-2px); background: var(--panel-hover); }
+
+    .grid-2 {
+      display:grid; gap:18px;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+    .inline-kpis { display:flex; gap:16px; flex-wrap:wrap; }
+    .kpi {
+      background: rgba(0,230,255,.08); border:1px solid rgba(0,230,255,.18);
+      padding:12px 14px; border-radius:10px; color:#dff8ff; font-weight:600;
+    }
+    .screens img {
+      width:100%; border-radius:10px; border:1px solid rgba(255,255,255,.08);
+      box-shadow: 0 6px 24px rgba(0,0,0,.35);
+    }
+    .screens p { margin:6px 0 0; color: var(--muted); font-size:.95rem; }
+    .cta { text-align:center; margin-top: 24px; }
+    .btn {
+      display:inline-block; background: var(--brand); color: #0b0f1c; padding:12px 18px;
+      border-radius:30px; font-weight:600; text-decoration:none; transition:.25s;
+      box-shadow:0 0 14px rgba(0,230,255,.45);
+    }
+    .btn:hover { background: var(--accent); box-shadow:0 0 22px rgba(240,192,64,.6); }
+
+    .back {
+      display:inline-block; margin-top:8px; color: var(--brand); text-decoration:none; font-weight:600;
+    }
+    .back:hover { color: var(--accent); }
+
+    /* Background floating orbs (mirrors your index) */
+    .background { position: fixed; inset:0; z-index:-1;
+      background: radial-gradient(circle at top left, #0b0f1c, #05060b); overflow:hidden; }
+    .background span { position:absolute; width:20px; height:20px; background:var(--brand);
+      border-radius:50%; opacity:.25; animation: float 20s linear infinite; }
+    .background span:nth-child(1){ top:20%; left:15%; animation-duration:25s; }
+    .background span:nth-child(2){ top:70%; left:10%; animation-duration:30s; }
+    .background span:nth-child(3){ top:40%; left:60%; animation-duration:18s; }
+    .background span:nth-child(4){ top:80%; left:75%; animation-duration:22s; }
+    .background span:nth-child(5){ top:50%; left:30%; animation-duration:28s; }
+    .background span:nth-child(6){ top:30%; left:85%; animation-duration:26s; }
+    .background span:nth-child(7){ top:10%; left:50%; animation-duration:24s; }
+    .background span:nth-child(8){ top:65%; left:55%; animation-duration:20s; }
+
+    @keyframes fadeUp { from{opacity:0; transform: translateY(12px);} to{opacity:1; transform:none;} }
+    @keyframes float { 0%{ transform:translate(0,0);} 50%{ transform:translate(25px,-40px);} 100%{ transform:translate(0,0);} }
+
+    /* Small screens */
+    @media (max-width:560px){ header h1{font-size:1.6rem;} .hero h2{font-size:1.25rem;} }
+  </style>
+</head>
+<body>
+  <!-- background orbs -->
+  <div class="background"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+
+  <header>
+    <a href="../index.html" class="back">← Back to Home</a>
+    <div style="margin-top:10px;">
+      <img src="../assets/logo.png" alt="PyLumeAI logo"/>
+      <h1>PyLumeAI</h1>
+      <p>Illuminate Data with Python & AI</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="hero">
+      <h2>Fraud Analytics ETL Pipeline – PaySim</h2>
+      <p>End-to-end PySpark + Databricks pipeline with dashboards to uncover fraud patterns in financial transactions.</p>
+    </div>
+
+    <!-- Overview -->
+    <section class="panel">
+      <h3>📖 Overview</h3>
+      <p>The <b>PaySim dataset</b> simulates mobile money transactions based on real financial data.
+      This project demonstrates how to turn raw transactions into actionable fraud insights using
+      <b>PySpark</b> and <b>Databricks</b>, with curated dashboards for decision-makers.</p>
+      <div class="inline-kpis" style="margin-top:10px;">
+        <span class="kpi">Bronze → Silver → Gold ETL</span>
+        <span class="kpi">Fraud Features & CLV</span>
+        <span class="kpi">Dashboards & Trends</span>
+      </div>
+    </section>
+
+    <!-- Problem & Solution -->
+    <section class="grid-2">
+      <div class="panel">
+        <h3>🎯 Problem</h3>
+        <ul>
+          <li>Detect fraudulent transactions</li>
+          <li>Identify high-risk customers & accounts</li>
+          <li>Visualize fraud trends for proactive monitoring</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>🛠️ Solution</h3>
+        <ol>
+          <li><b>Bronze:</b> Ingest PaySim CSV to Delta</li>
+          <li><b>Silver:</b> Clean/standardize + fraud flags</li>
+          <li><b>Gold:</b> Fraud rate, CLV, hotspots</li>
+          <li><b>Dashboards:</b> Fraud by Type, Trends, Risk Profiling, Hotspots, CLV vs Exposure</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Insights -->
+    <section class="panel">
+      <h3>🔍 Key Insights</h3>
+      <ul>
+        <li><b>Transfers</b> show the highest fraud rate (signal for controls).</li>
+        <li><b>High Net Value</b> customers have greater fraud exposure.</li>
+        <li><b>Top accounts</b> concentrate a large share of fraud losses.</li>
+        <li>Detectable <b>spikes</b> appear in time series (anomaly windows).</li>
+      </ul>
+    </section>
+
+    <!-- Screenshots -->
+    <section class="grid-2 screens">
+      <div class="panel">
+        <img src="../images/paysim/fraud_by_type.png" alt="Fraud by Transaction Type"/>
+        <p><em>Fraud by Transaction Type — risk concentrated in Transfers.</em></p>
+      </div>
+      <div class="panel">
+        <img src="../images/paysim/fraud_trend.png" alt="Fraud Trend Over Time"/>
+        <p><em>Fraud Trend — daily counts with 7-day moving averages.</em></p>
+      </div>
+      <div class="panel">
+        <img src="../images/paysim/customer_risk.png" alt="Customer Risk Profiling"/>
+        <p><em>Customer Risk Profiling — CLV segments and risk levels.</em></p>
+      </div>
+      <div class="panel">
+        <img src="../images/paysim/fraud_hotspots.png" alt="Fraud Hotspots"/>
+        <p><em>Fraud Hotspots — origination/destination accounts most impacted.</em></p>
+      </div>
+      <div class="panel">
+        <img src="../images/paysim/clv_vs_exposure.png" alt="CLV vs Fraud Exposure"/>
+        <p><em>CLV vs Fraud Exposure — bubble chart of value vs risk.</em></p>
+      </div>
+    </section>
+
+    <!-- Code & Demo -->
+    <section class="panel">
+      <h3>🔗 Code & Demo</h3>
+      <p>
+        <a class="btn" href="https://github.com/yourusername/paysim-etl-fraud-analytics" target="_blank" rel="noopener">GitHub Repository</a>
+        &nbsp;&nbsp;
+        <a class="btn" href="#" target="_blank" rel="noopener">Live Dashboard Demo</a>
+      </p>
+      <p style="color:#a6b3d1; margin-top:10px;">(Replace the links above with your repo and demo URLs.)</p>
+    </section>
+
+    <!-- CTA -->
+    <section class="panel cta">
+      <h3>🚀 Work With PyLumeAI</h3>
+      <p>This project shows how we deliver end-to-end fraud analytics — from raw data to dashboards.</p>
+      <p><a class="btn" href="mailto:contact.pylumeai@gmail.com">📧 Contact Me</a></p>
+    </section>
+  </main>
+
+  <footer>
+    <p><a class="back" href="../index.html">← Back to Home</a></p>
+    <p>© 2025 PyLumeAI</p>
+  </footer>
+</body>
+</html>

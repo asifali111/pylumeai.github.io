@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PyLumeAI – Python, GenAI, PySpark & Data Engineering Freelance Studio</title>
-<!-- SEO Meta Tags -->
+  <!-- SEO Meta Tags -->
   <meta name="description"
     content="PyLumeAI offers freelance services in Python, PySpark, Databricks, Data Engineering, Generative AI, Chatbots, and Data Visualization with Streamlit & Power BI.">
 
@@ -15,14 +15,15 @@
   <meta name="author" content="PyLumeAI">
   <!-- OpenGraph for Social Media -->
   <meta property="og:title" content="PyLumeAI – Python, AI, PySpark & Data Engineering Freelance Studio" />
-  <meta property="og:description" content="Freelance services in Python, PySpark, Databricks, Data Engineering, Generative AI, Chatbots, and Data Visualization with Power BI & Streamlit." />
+  <meta property="og:description"
+    content="Freelance services in Python, PySpark, Databricks, Data Engineering, Generative AI, Chatbots, and Data Visualization with Power BI & Streamlit." />
   <meta property="og:image" content="https://pylumeai.com/assets/logo.png" />
   <meta property="og:url" content="https://pylumeai.com" />
   <meta property="og:type" content="website" />
 
   <link rel="icon" type="image/png" href="assets/logo.png">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-  
+
   <style>
     body {
       margin: 0;
@@ -306,6 +307,34 @@
       animation-delay: 1.5s;
       /* start after page loads */
     }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    .modal-content {
+      background: #1a2238;
+      color: #f4f4f4;
+      margin: 10% auto;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 600px;
+      animation: fadeUp 0.5s ease;
+    }
+
+    .close-btn {
+      color: #f0c040;
+      float: right;
+      font-size: 24px;
+      cursor: pointer;
+    }
   </style>
 </head>
 
@@ -324,29 +353,53 @@
   <section>
     <h2 style="text-align:center; color:#f0c040;">Services</h2>
     <div class="services">
-      <div class="card">
+      <div class="card" onclick="openModal('Data Engineering')">
         <h3>Data Engineering</h3>
         <p>ETL Pipelines in AWS, PySpark, Databricks</p>
       </div>
-      <div class="card">
+      <div class="card" onclick="openModal('Python Development')">
         <h3>Python Development</h3>
         <p>Automation, APIs, Streamlit Dashboards</p>
       </div>
-      <div class="card">
+
+      <div class="card" onclick="openModal('Generative AI')">
         <h3>Generative AI & Chatbots</h3>
         <p>RAG, LangChain, AI-powered apps</p>
       </div>
-      <div class="card">
+
+      <div class="card" onclick="openModal('Data Visualization')">
         <h3>Data Visualization</h3>
         <p>Power BI Dashboards, Streamlit Visuals</p>
       </div>
     </div>
+    <!-- ===== Projects (Portfolio) ===== -->
+<section id="projects">
+  <h2 style="text-align:center; color:#f0c040;">Projects</h2>
+  <div class="services">
+    <!-- Project Card: PaySim Fraud Analytics -->
+    <a class="card" href="projects/paysim-fraud-analytics.html" style="text-decoration:none; display:block;">
+      <h3>Fraud Analytics ETL – PaySim</h3>
+      <p>End-to-end PySpark + Databricks pipeline with rich fraud dashboards.</p>
+    </a>
+    <!-- You can add more project cards here later -->
+  </div>
+</section>
+
+
   </section>
 
   <footer>
     <p>Contact me: <a href="mailto:contact.pylumeai@gmail.com">contact.pylumeai@gmail.com</a></p>
     <p>© 2025 PyLumeAI</p>
   </footer>
+  <!-- Modal Structure -->
+  <div id="serviceModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <div id="modalTitle"></div>
+      <div id="modalBody"></div>
+    </div>
+  </div>
   <script>
     // Select all cards
     const cards = document.querySelectorAll('.card');
@@ -363,7 +416,65 @@
     // Observe each card
     cards.forEach(card => observer.observe(card));
   </script>
+  <!-- ✨ New script for modal popup -->
+  <script>
+    const modal = document.getElementById("serviceModal");
+    const title = document.getElementById("modalTitle");
+    const body = document.getElementById("modalBody");
+    const closeBtn = document.querySelector(".close-btn");
+
+    const content = {
+      "Data Engineering": `
+      <h2>Data Engineering (PySpark & Databricks)</h2>
+      <p>I build scalable ETL pipelines using PySpark and Databricks on AWS or Azure. I help design data lakes, delta tables, and automate data workflows.</p>
+      <ul>
+        <li>Migrated 100M+ records from SQL Server to Delta Lake</li>
+        <li>Built pipelines for Qualys & CrowdStrike security data</li>
+        <li>Automated S3 → Redshift loads using PySpark</li>
+      </ul>`,
+
+      "Python Development": `
+      <h2>Python Development</h2>
+      <p>I develop robust Python tools, APIs, and automation pipelines using FastAPI, Pandas, and Pydantic.</p>
+      <ul>
+        <li>REST API for 10k+ daily JSONs using FastAPI</li>
+        <li>Invoice automation from Excel to PDF</li>
+        <li>GitHub issue sync to SQL database</li>
+      </ul>`,
+
+      "Generative AI": `
+      <h2>Generative AI & Chatbots</h2>
+      <p>I build RAG-based bots and AI dashboards using LangChain, OpenAI, FAISS, and Streamlit.</p>
+      <ul>
+        <li>LangChain Q&A bots for PDFs</li>
+        <li>Chatbot for HR policy docs</li>
+        <li>Streamlit chatbot linked to SQL</li>
+      </ul>`,
+
+      "Data Visualization": `
+      <h2>Data Visualization</h2>
+      <p>Interactive dashboards using Power BI and Streamlit to drive data insights and reporting automation.</p>
+      <ul>
+        <li>Power BI dashboards for exec teams</li>
+        <li>Streamlit visual reports for customer data</li>
+        <li>KPI dashboards with API+DB integration</li>
+      </ul>`
+    };
+
+    function openModal(service) {
+      title.innerHTML = ""; // optional: clear title
+      body.innerHTML = content[service];
+      modal.style.display = "block";
+    }
+
+    closeBtn.onclick = () => modal.style.display = "none";
+    window.onclick = (e) => {
+      if (e.target == modal) modal.style.display = "none";
+    };
+  </script>
+
   <a href="mailto:contact.pylumeai@gmail.com" class="contact-btn">📧 Hire Me</a>
+  
 
 </body>
 
