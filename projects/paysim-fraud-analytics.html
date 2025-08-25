@@ -4,12 +4,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PaySim Fraud Analytics – PyLumeAI</title>
-  <meta name="description"
-    content="End-to-end PySpark + Databricks ETL and dashboards on the PaySim dataset to analyze and visualize fraud." />
-  <link rel="icon" type="image/png" href="../assets/logo.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <title>Fraud Analytics ETL Pipeline – PaySim | PyLumeAI</title>
 
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="Fraud Analytics ETL Pipeline – PaySim | PyLumeAI">
+  <meta name="description"
+    content="End-to-end PySpark + Databricks ETL pipeline with dashboards to uncover fraud insights from the PaySim dataset. Built under the PyLumeAI brand.">
+  <meta name="keywords"
+    content="PyLumeAI, PaySim, Fraud Analytics, ETL pipeline, PySpark, Databricks, Data Engineering, CLV, Risk Profiling, Fraud Detection Dashboards">
+
+  <!-- Open Graph / LinkedIn -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pylumeai.com/projects/paysim-fraud-analytics.html">
+  <meta property="og:title" content="Fraud Analytics ETL Pipeline – PaySim | PyLumeAI">
+  <meta property="og:description"
+    content="Explore an end-to-end PySpark + Databricks pipeline with fraud detection dashboards including fraud trends, hotspots, and customer risk profiling.">
+  <meta property="og:image" content="https://pylumeai.com/images/paysim/fraud_trend.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://pylumeai.com/projects/paysim-fraud-analytics.html">
+  <meta name="twitter:title" content="Fraud Analytics ETL Pipeline – PaySim | PyLumeAI">
+  <meta name="twitter:description"
+    content="End-to-end PySpark + Databricks ETL pipeline with fraud analytics dashboards.">
+  <meta name="twitter:image" content="https://pylumeai.com/images/paysim/fraud_trend.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../assets/logo.png" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
   <style>
     :root {
       --bg: #0b0f1c;
@@ -330,7 +354,8 @@
 <body>
   <!-- background orbs -->
   <div class="background">
-    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
 
   <header>
     <a href="../index.html" class="back">← Back to Home</a>
@@ -422,8 +447,8 @@
     <section class="panel">
       <h3>🔗 Code & Demo</h3>
       <p>
-        <a class="btn" href="https://github.com/PyLumeAI/paysim-fraud-analytics" target="_blank"
-          rel="noopener">GitHub Repository</a>
+        <a class="btn" href="https://github.com/PyLumeAI/paysim-fraud-analytics" target="_blank" rel="noopener">GitHub
+          Repository</a>
         &nbsp;&nbsp;
         <a class="btn" href="#" target="_blank" rel="noopener">Live Dashboard Demo</a>
       </p>
@@ -444,39 +469,39 @@
   </footer>
 
   <!-- Lightbox overlay -->
-<div class="lb-overlay" id="lightbox" aria-modal="true" role="dialog">
-  <button class="lb-close" id="lbClose" aria-label="Close">Close ✕</button>
-  <div>
-    <img class="lb-img" id="lbImg" alt="">
-    <div class="lb-caption" id="lbCap"></div>
+  <div class="lb-overlay" id="lightbox" aria-modal="true" role="dialog">
+    <button class="lb-close" id="lbClose" aria-label="Close">Close ✕</button>
+    <div>
+      <img class="lb-img" id="lbImg" alt="">
+      <div class="lb-caption" id="lbCap"></div>
+    </div>
   </div>
-</div>
-<script>
-  (function () {
-    const overlay = document.getElementById('lightbox');
-    const imgEl   = document.getElementById('lbImg');
-    const capEl   = document.getElementById('lbCap');
-    const close   = document.getElementById('lbClose');
+  <script>
+    (function () {
+      const overlay = document.getElementById('lightbox');
+      const imgEl = document.getElementById('lbImg');
+      const capEl = document.getElementById('lbCap');
+      const close = document.getElementById('lbClose');
 
-    // Click any screenshot inside the “screens” grid
-    document.querySelectorAll('.screens img').forEach(img => {
-      img.style.cursor = 'zoom-in';
-      img.addEventListener('click', () => {
-        imgEl.src = img.src;
-        imgEl.alt = img.alt || '';
-        capEl.textContent = img.nextElementSibling?.innerText || '';
-        overlay.classList.add('open');
-        close.focus();
+      // Click any screenshot inside the “screens” grid
+      document.querySelectorAll('.screens img').forEach(img => {
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click', () => {
+          imgEl.src = img.src;
+          imgEl.alt = img.alt || '';
+          capEl.textContent = img.nextElementSibling?.innerText || '';
+          overlay.classList.add('open');
+          close.focus();
+        });
       });
-    });
 
-    // Close handlers
-    function hide() { overlay.classList.remove('open'); imgEl.src=''; capEl.textContent=''; }
-    close.addEventListener('click', hide);
-    overlay.addEventListener('click', (e) => { if (e.target === overlay) hide(); });
-    document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hide(); });
-  })();
-</script>
+      // Close handlers
+      function hide() { overlay.classList.remove('open'); imgEl.src = ''; capEl.textContent = ''; }
+      close.addEventListener('click', hide);
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) hide(); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hide(); });
+    })();
+  </script>
 
 
 </body>
