@@ -12,5 +12,9 @@
     <loc>https://pylumeai.com/projects/paysim-fraud-analytics.html</loc>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://pylumeai.com/projects/genai-data-explorer.html</loc>
+    <priority>0.8</priority>
+  </url>
 
 </urlset>

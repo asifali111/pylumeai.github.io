@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GenAI Data Explorer | PyLumeAI</title>
+
+  <!-- Primary Meta Tags -->
+  <meta name="title" content="GenAI Data Explorer | PyLumeAI">
+  <meta name="description"
+        content="Chat with your CSVs: multi-file upload, automatic join detection, safe SQL guardrails, interactive charts, and query history. Built by PyLumeAI.">
+  <meta name="keywords"
+        content="PyLumeAI, GenAI Data Explorer, data chat, LLM to SQL, DuckDB, Streamlit, CSV analytics, auto joins, interactive charts">
+
+  <!-- Open Graph / LinkedIn -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://pylumeai.com/projects/genai-data-explorer.html">
+  <meta property="og:title" content="GenAI Data Explorer | PyLumeAI">
+  <meta property="og:description"
+        content="Upload multiple CSVs, ask in natural language, get safe SQL + interactive charts. Supports automatic joins across tables.">
+  <meta property="og:image" content="https://pylumeai.com/images/genai-data-explorer/cover.png">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://pylumeai.com/projects/genai-data-explorer.html">
+  <meta name="twitter:title" content="GenAI Data Explorer | PyLumeAI">
+  <meta name="twitter:description"
+        content="Chat with data: multi-file uploads, auto-joins, SQL guardrails, and charts.">
+  <meta name="twitter:image" content="https://pylumeai.com/images/genai-data-explorer/cover.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="../assets/logo.png" />
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+
+  <!-- Styles (same system as your PaySim page) -->
+  <style>
+    :root {
+      --bg: #0b0f1c;
+      --panel: #1a2238;
+      --panel-hover: #222c4a;
+      --ink: #f4f4f4;
+      --brand: #00e6ff;
+      --accent: #f0c040;
+      --muted: #a6b3d1;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; font-family: 'Poppins', sans-serif;
+      background: var(--bg); color: var(--ink);
+    }
+    header, footer { text-align: center; padding: 32px 16px; }
+    header img { width: 100px; filter: drop-shadow(0 0 10px var(--brand)); }
+    header h1 { margin: 10px 0 4px; color: var(--brand); font-size: 2rem; }
+    header p { margin: 0; color: var(--accent); }
+
+    .container { max-width: 1000px; margin: 0 auto; padding: 24px 16px; }
+    .hero {
+      margin-top: 8px; background: linear-gradient(135deg, rgba(0,230,255,.07), rgba(240,192,64,.07));
+      border: 1px solid rgba(255,255,255,.06); border-radius: 14px; padding: 24px;
+      box-shadow: 0 10px 40px rgba(0,0,0,.25); animation: fadeUp .8s ease forwards; opacity: 0;
+    }
+    .hero h2 { margin: 0 0 8px; color: var(--ink); font-size: 1.6rem; }
+    .hero p  { margin: 0; color: var(--muted); }
+
+    section { padding: 28px 0; }
+    h3 { color: var(--accent); margin: 0 0 12px; }
+
+    .panel {
+      background: var(--panel); border-radius: 12px; padding: 20px; margin: 16px 0;
+      transition: .3s; border: 1px solid rgba(255,255,255,.06);
+      animation: fadeUp .8s ease forwards; opacity: 0;
+    }
+    .panel:hover { transform: translateY(-2px); background: var(--panel-hover); }
+    .grid-2 { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); }
+
+    .inline-kpis { display: flex; gap: 16px; flex-wrap: wrap; }
+    .kpi {
+      background: rgba(0,230,255,.08); border: 1px solid rgba(0,230,255,.18);
+      padding: 12px 14px; border-radius: 10px; color: #dff8ff; font-weight: 600;
+    }
+
+    .screens img {
+      width: 100%; border-radius: 10px; border: 1px solid rgba(255,255,255,.08);
+      box-shadow: 0 6px 24px rgba(0,0,0,.35);
+    }
+    .screens p { margin: 6px 0 0; color: var(--muted); font-size: .95rem; }
+
+    .cta { text-align: center; margin-top: 24px; }
+    .btn {
+      display: inline-block; background: var(--brand); color: #0b0f1c; padding: 12px 18px;
+      border-radius: 30px; font-weight: 600; text-decoration: none; transition: .25s;
+      box-shadow: 0 0 14px rgba(0,230,255,.45);
+    }
+    .btn:hover { background: var(--accent); box-shadow: 0 0 22px rgba(240,192,64,.6); }
+    .back { display: inline-block; margin-top: 8px; color: var(--brand); text-decoration: none; font-weight: 600; }
+    .back:hover { color: var(--accent); }
+
+    /* Background floating orbs */
+    .background { position: fixed; inset: 0; z-index: -1; background: radial-gradient(circle at top left,#0b0f1c,#05060b); overflow: hidden; }
+    .background span { position: absolute; width: 20px; height: 20px; background: var(--brand); border-radius: 50%; opacity: .25; animation: float 20s linear infinite; }
+    .background span:nth-child(1){ top:20%; left:15%; animation-duration:25s; }
+    .background span:nth-child(2){ top:70%; left:10%; animation-duration:30s; }
+    .background span:nth-child(3){ top:40%; left:60%; animation-duration:18s; }
+    .background span:nth-child(4){ top:80%; left:75%; animation-duration:22s; }
+    .background span:nth-child(5){ top:50%; left:30%; animation-duration:28s; }
+    .background span:nth-child(6){ top:30%; left:85%; animation-duration:26s; }
+    .background span:nth-child(7){ top:10%; left:50%; animation-duration:24s; }
+    .background span:nth-child(8){ top:65%; left:55%; animation-duration:20s; }
+
+    @keyframes fadeUp { from { opacity:0; transform: translateY(12px);} to { opacity:1; transform:none; } }
+    @keyframes float  { 0%{transform:translate(0,0);} 50%{transform:translate(25px,-40px);} 100%{transform:translate(0,0);} }
+
+    @media (max-width:560px){ header h1{font-size:1.6rem;} .hero h2{font-size:1.25rem;} }
+
+    /* Lightbox */
+    .lb-overlay { position: fixed; inset: 0; display: none; place-items: center; background: rgba(0,0,0,.85);
+      z-index: 9999; padding: 24px; }
+    .lb-overlay.open { display: grid; }
+    .lb-img { max-width: 95vw; max-height: 85vh; border-radius: 10px; border: 1px solid rgba(255,255,255,.15); box-shadow: 0 10px 40px rgba(0,0,0,.6); }
+    .lb-caption { margin-top: 10px; color: #a6b3d1; text-align: center; }
+    .lb-close { position: absolute; top: 16px; right: 18px; background: #00e6ff; color: #0b0f1c; border: 0; padding: 8px 12px; border-radius: 22px; font-weight: 600; cursor: pointer; }
+    .lb-overlay:focus-within .lb-close { outline: 2px solid #f0c040; }
+  </style>
+</head>
+
+<body>
+  <!-- background orbs -->
+  <div class="background">
+    <span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <header>
+    <a href="../index.html" class="back">← Back to Home</a>
+    <div style="margin-top:10px;">
+      <img src="../assets/logo.png" alt="PyLumeAI logo" />
+      <h1>PyLumeAI</h1>
+      <p>Illuminate Data with Python & AI</p>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="hero">
+      <h2>GenAI Data Explorer</h2>
+      <p>Chat with your CSVs: multi-file upload, automatic join detection, safe SQL guardrails, interactive charts, and query history.</p>
+    </div>
+
+    <!-- Overview / Value -->
+    <section class="panel">
+      <h3>📖 Overview</h3>
+      <p><b>GenAI Data Explorer</b> lets analysts and founders ask questions in plain English and get
+         <b>DuckDB-safe SQL</b> plus interactive visuals. Upload multiple CSVs—shared columns are detected to suggest
+         <b>JOINs</b> automatically. PNG/SVG export, query history, and reset-safe UX are built in.</p>
+      <div class="inline-kpis" style="margin-top:10px;">
+        <span class="kpi">Multi-file Upload</span>
+        <span class="kpi">Auto JOIN Hints</span>
+        <span class="kpi">LLM → SQL (Guarded)</span>
+        <span class="kpi">Charts & Export</span>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="grid-2">
+      <div class="panel">
+        <h3>✨ Features</h3>
+        <ul>
+          <li>Each CSV becomes a table automatically</li>
+          <li>Detects shared keys (e.g., <em>CustomerID</em>) for JOINs</li>
+          <li>Few-shot prompts tuned for DuckDB (no dangerous statements)</li>
+          <li>Bar/Line/Area/Scatter/Pie with <b>multi-series</b> support</li>
+          <li>PNG/SVG chart download</li>
+          <li>Query history: re-run & export</li>
+        </ul>
+      </div>
+      <div class="panel">
+        <h3>🧭 How to use</h3>
+        <ol>
+          <li>Upload one or more CSVs in the sidebar</li>
+          <li>Ask a question (e.g., “Monthly trend broken down by segment”)</li>
+          <li>Review generated SQL, results, and chart</li>
+          <li>Download as PNG/SVG or re-run from history</li>
+        </ol>
+        <div class="cta" style="margin-top:10px;">
+          <a class="btn" href="https://pylumeai-genai-data-explorer.streamlit.app/" target="_blank" rel="noopener">Live Demo</a>
+          &nbsp;&nbsp;
+          <a class="btn" href="https://github.com/PyLumeAI/genai-data-explorer" target="_blank" rel="noopener">GitHub Repo</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Screenshots -->
+    <section class="grid-2 screens">
+      <div class="panel">
+        <img src="../images/genai-data-explorer/schema.png" alt="Schema & tables" />
+        <p><em>Registered tables & schema preview.</em></p>
+      </div>
+      <div class="panel">
+        <img src="../images/genai-data-explorer/line-multiseries.png" alt="Multi-series monthly trend" />
+        <p><em>Monthly trend with one line per category/segment.</em></p>
+      </div>
+      <div class="panel">
+        <img src="../images/genai-data-explorer/line.png" alt="Line chart Top N" />
+        <p><em>Top-N line chart with quick sort and aggregation.</em></p>
+      </div>
+      <div class="panel">
+        <img src="../images/genai-data-explorer/history.png" alt="Query history" />
+        <p><em>Query history with re-run & CSV export.</em></p>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="panel cta">
+      <h3>🚀 Try It</h3>
+      <p>Test it with your own CSVs or the sample files in the repo.</p>
+      <p>
+        <a class="btn" href="https://pylumeai-genai-data-explorer.streamlit.app/" target="_blank" rel="noopener">Open the Live Demo</a>
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    <p><a class="back" href="../index.html">← Back to Home</a></p>
+    <p>© 2025 PyLumeAI</p>
+  </footer>
+
+  <!-- Lightbox overlay -->
+  <div class="lb-overlay" id="lightbox" aria-modal="true" role="dialog">
+    <button class="lb-close" id="lbClose" aria-label="Close">Close ✕</button>
+    <div>
+      <img class="lb-img" id="lbImg" alt="">
+      <div class="lb-caption" id="lbCap"></div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const overlay = document.getElementById('lightbox');
+      const imgEl = document.getElementById('lbImg');
+      const capEl = document.getElementById('lbCap');
+      const close = document.getElementById('lbClose');
+
+      document.querySelectorAll('.screens img').forEach(img => {
+        img.style.cursor = 'zoom-in';
+        img.addEventListener('click', () => {
+          imgEl.src = img.src;
+          imgEl.alt = img.alt || '';
+          capEl.textContent = img.nextElementSibling?.innerText || '';
+          overlay.classList.add('open');
+          close.focus();
+        });
+      });
+
+      function hide() { overlay.classList.remove('open'); imgEl.src = ''; capEl.textContent = ''; }
+      close.addEventListener('click', hide);
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) hide(); });
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape') hide(); });
+    })();
+  </script>
+</body>
+</html>
